@@ -64,6 +64,7 @@ alert($alert); ?>
                         <th>Telefon</th>
                         <th>E-mail</th>
                         <th style="width: 60px;">Level</th>
+                        <th>Produkt</th>
                         <th style="width: 50px;">zaznacz</th>
                     </tr>
                 </thead>
@@ -92,6 +93,7 @@ alert($alert); ?>
                         <th>Telefon</th>
                         <th>E-mail</th>
                         <th style="width: 60px;">Level</th>
+                        <th>Produkt</th>
                         <th style="width: 50px;">zaznacz</th>
                     </tr>
                 </thead>
@@ -146,12 +148,12 @@ window.onload = function()
     // ZAZNACZ WIELE LEADOW I WYŚWIETL FORMULARZ
     $(document).on('click','.btn-add-task-to-many',function(e)
     {
-        
-
-        
-
-
-
+        e.preventDefault();
+		var grupa_leadow = $(this).parents('.grupa-leadow');
+		$('input[data-klient-id]',grupa_leadow).prop('checked', false);
+		$('input[data-klient-id]:lt('+$(this).data('ile')+')').prop('checked', true);
+		
+		if($('input[data-klient-id]:checked',grupa_leadow).length > 0) $('.btn-add-task-to-checked',grupa_leadow).click();
     });
     
 
@@ -272,11 +274,12 @@ function  pokaz_leady(){
                         d4,
                         v.email,
                         level,
+                        v.produkt_nazwa,
                         '<input data-klient-id="'+v.klient_id+'" type="checkbox">'
                     ] 
                     ).node();
                     $(rowNode).attr('id','klient-'+v.klient_id+'-row');
-                    $('td:eq(4),td:eq(5)',rowNode).addClass( 'text-center');
+                    $('td:eq(4),td:eq(5),td:eq(6)',rowNode).addClass( 'text-center');
                 });
                 table.draw();
             }
